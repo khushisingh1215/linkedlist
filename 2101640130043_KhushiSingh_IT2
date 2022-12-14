@@ -50,11 +50,62 @@ void display(struct node* head){
 	s=head;
 	while(s!=NULL){
 	
-		printf("%d",s->data);
+		printf("%d  ",s->data);
 		s=s->address;
 		
 	}
+	
 }
+void deleteatfront(struct node** head){
+	struct node* temp;
+	temp=*head;
+	*head=temp->address;
+	free(temp);
+}
+void deleteatend(struct node** head){
+	struct node* s;
+	s=*head;
+	
+		while(s->address->address!=NULL)
+		{
+			s=s->address;
+		}
+		free(s->address);
+		s->address=NULL;
+	
+}
+void deleteatspecificloc(struct node** head,int loc){
+	struct node* s;
+	s=*head;
+while((loc-2)>0)
+{
+	s=s->address;
+}
+struct node* temp;
+temp=s->address;
+s->address=s->address->address;
+free (temp);
+	
+}
+void middle(struct node** head){
+	struct node* slow;
+	struct node* fast;	
+	slow=fast=*head;
+	if(head==NULL)
+	{
+		printf("\n linked list is empty");
+		return;
+	}
+	else
+	{
+		while(fast!=NULL && fast->address!=NULL){
+			slow=slow->address;
+			fast=fast->address->address;
+		}
+		printf("%d",slow->data);
+	}
+}
+
 int main(){
 	int choice,after;
 	struct node* head;
@@ -66,7 +117,11 @@ int main(){
 		printf("\n 1.insert at beg");
 		printf("\n 2.insert at end");
 		printf("\n 3.insert at loc");
-		printf("\n 4. display");
+		printf("\n 4.delete at front");
+		printf("\n 5.delete at end");
+		printf("\n 6.delete at specific loc");
+	
+		printf("\n 7. display");
 		printf("\n enter your choice=");
 		scanf("%d",&choice);
 		if(choice==1)
@@ -89,11 +144,25 @@ int main(){
 						insertatloc(&head,data,after);
 				}
 				
-				else if(choice==4)
+				else if(choice==7)
 				{
 							display(head);
-						}	
+						}
+						else if(choice==6)	
+						{
+							int loc;
+							scanf("%d",&loc);
+							deleteatspecificloc(&head,loc);
+							
+						}
+						else if(choice==4){
+							deleteatfront(&head);
+						}
+						else if(choice==5){
+							deleteatend(&head);
+						}
+						
 							else
 								printf(" invalid choice");
-	}
+	}middle(&head);
 }
